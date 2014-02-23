@@ -1,4 +1,4 @@
-# Opus::Ruby
+# opus-ruby
 
 TODO: Write a gem description
 
