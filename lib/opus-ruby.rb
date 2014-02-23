@@ -21,7 +21,9 @@ module Opus
     OPUS_APPLICATION_RESTRICTED_LOWDELAY  = 2051
     OPUS_SIGNAL_VOICE                     = 3001
     OPUS_SIGNAL_MUSIC                     = 3002
+    OPUS_SET_BITRATE_REQUEST              = 4002
     OPUS_SET_VBR_REQUEST                  = 4006
+    OPUS_RESET_STATE                      = 4028
   end
 
   attach_function :opus_encoder_get_size, [:int], :int

@@ -1,6 +1,7 @@
 module Opus
   class Encoder
-    attr_reader :sample_rate, :frame_size, :channels
+    attr_reader :sample_rate, :frame_size, :channels,
+                :vbr_rate, :bitrate
 
     def initialize(sample_rate, frame_size, channels)
       @sample_rate = sample_rate
@@ -12,6 +13,20 @@ module Opus
 
     def destroy
       Opus.opus_encoder_destroy @encoder
+    end
+
+    def reset
+      Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_RESET_STATE, :pointer, nil
+    end
+
+    def vbr_rate=(value)
+      @vbr_rate = value
+      Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_SET_VBR_REQUEST, :int32, value
+    end
+
+    def bitrate=(value)
+      @bitrate = value
+      Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_SET_BITATE_REQUEST, :int32, value
     end
 
     def encode(data, size)
