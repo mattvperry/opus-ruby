@@ -8,7 +8,7 @@ module Opus
       @frame_size = frame_size
       @channels = channels
 
-      @encoder = Opus.opus_encoder_create sample_rate, channels, Constants::OPUS_APPLICATION_VOIP, nil
+      @encoder = Opus.opus_encoder_create sample_rate, channels, Constants::OPUS_APPLICATION_AUDIO, nil
     end
 
     def destroy
@@ -26,7 +26,7 @@ module Opus
 
     def bitrate=(value)
       @bitrate = value
-      Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_SET_BITATE_REQUEST, :int32, value
+      Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_SET_BITRATE_REQUEST, :int32, value
     end
 
     def encode(data, size)
