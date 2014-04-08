@@ -54,7 +54,7 @@ module Opus
 
 			max_size = @frame_size * @channels
 
-			decoded = FFI::MemoryPointer :short, max_size + 1
+			decoded = FFI::MemoryPointer.new :short, max_size + 1
 
 			frame_size = Opus.opus_decode @decoder, packet, len, decoded, max_size, 0
 
