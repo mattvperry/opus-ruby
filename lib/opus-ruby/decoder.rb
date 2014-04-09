@@ -35,7 +35,7 @@ module Opus
 			@frame_size = frame_size
 			@channels = channels
 
-			@decoder = Opus.opus_decoder_create sample_rate, frame_size, channels
+			@decoder = Opus.opus_decoder_create sample_rate, channels, nil
 		end
 
 		def destroy
