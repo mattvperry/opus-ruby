@@ -27,43 +27,43 @@
 
 
 module Opus
-	class Decoder
-		attr_reader :sample_rate, :frame_size, :channels
+  class Decoder
+    attr_reader :sample_rate, :frame_size, :channels
 
-		def initialize( sample_rate, frame_size, channels )
-			@sample_rate = sample_rate
-			@frame_size = frame_size
-			@channels = channels
+    def initialize( sample_rate, frame_size, channels )
+      @sample_rate = sample_rate
+      @frame_size = frame_size
+      @channels = channels
 
-			@decoder = Opus.opus_decoder_create sample_rate, channels, nil
-		end
+      @decoder = Opus.opus_decoder_create sample_rate, channels, nil
+    end
 
-		def destroy
-			Opus.opus_decoder_destroy @decoder
-		end
+    def destroy
+      Opus.opus_decoder_destroy @decoder
+    end
 
-		def reset
-			Opus.opus_decoder_ctl @decoder, Opus::Constants::OPUS_RESET_STATE, :pointer, nil
-		end
+    def reset
+      Opus.opus_decoder_ctl @decoder, Opus::Constants::OPUS_RESET_STATE, :pointer, nil
+    end
 
-		def decode( data )
-			len = data.size
+    def decode( data )
+      len = data.size
 
-			packet = FFI::MemoryPointer.new :char, len + 1
-			packet.put_string 0, data
+      packet = FFI::MemoryPointer.new :char, len + 1
+      packet.put_string 0, data
 
-			max_size = @frame_size * @channels
+      max_size = @frame_size * @channels
 
-			decoded = FFI::MemoryPointer.new :short, max_size + 1
+      decoded = FFI::MemoryPointer.new :short, max_size + 1
 
-			frame_size = Opus.opus_decode @decoder, packet, len, decoded, max_size, 0
+      frame_size = Opus.opus_decode @decoder, packet, len, decoded, max_size, 0
 
-			# The times 2 is very important and caused much grief prior to an IRC
-			# chat with the Opus devs. Just remember a short is 2 bytes... Seems so
-			# simple now...
-			return decoded.read_string_length frame_size * 2
-		end
-	end
+      # The times 2 is very important and caused much grief prior to an IRC
+      # chat with the Opus devs. Just remember a short is 2 bytes... Seems so
+      # simple now...
+      return decoded.read_string_length frame_size * 2
+    end
+  end
 end
 
 
