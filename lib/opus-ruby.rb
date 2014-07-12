@@ -1,6 +1,7 @@
 require 'ffi'
 require 'opus-ruby/version'
 require 'opus-ruby/encoder'
+require 'opus-ruby/decoder'
 
 module Opus
   extend FFI::Library
