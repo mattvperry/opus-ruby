@@ -52,7 +52,7 @@ module Opus
       packet = FFI::MemoryPointer.new :char, len + 1
       packet.put_string 0, data
 
-      max_size = @frame_size * @channels
+      max_size = @frame_size * @channels * 2 # Was getting buffer_too_small errors without the 2
 
       decoded = FFI::MemoryPointer.new :short, max_size + 1
 
